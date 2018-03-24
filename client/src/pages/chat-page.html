@@ -1,0 +1,20 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="chat-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    class ChatPage extends Polymer.Element {
+      static get is() { return 'chat-page'; }
+    }
+
+    window.customElements.define(ChatPage.is, ChatPage);
+  </script>
+</dom-module>

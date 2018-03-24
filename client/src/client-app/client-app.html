@@ -1,4 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../pages/chat-page.html">
 
 <dom-module id="client-app">
   <template>
@@ -7,24 +11,24 @@
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    
+    <app-location route="{{route}}"></app-location>
+    <app-route
+      route="{{route}}"
+      pattern="/components/client/:page"
+      data="{{routeData}}"
+      tail="{{subroute}}"></app-route>
+
+    <a href="chat">got to chat</a>
+    
+    <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
+      <chat-page name="chat" route="subroute"></chat-page>
+    </iron-pages>
   </template>
 
   <script>
-    /**
-     * @customElement
-     * @polymer
-     */
     class ClientApp extends Polymer.Element {
       static get is() { return 'client-app'; }
-      static get properties() {
-        return {
-          prop1: {
-            type: String,
-            value: 'client-app'
-          }
-        };
-      }
     }
 
     window.customElements.define(ClientApp.is, ClientApp);
