@@ -1,0 +1,47 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+
+<dom-module id="input-message-area">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-card {
+        width: 100vw;
+      }
+
+      .card-content {
+        display: flex;
+      }
+
+      paper-textarea {
+        flex: auto;
+      }
+    </style>
+
+    <paper-card>
+      <div class="card-content">
+        <paper-textarea label="メッセージ" required></paper-textarea>
+        <paper-button raised>送信</paper-button>
+      </div>
+    </paper-card>
+  </template>
+
+  <script>
+    class InputMessageArea extends Polymer.Element {
+      static get is() { return 'input-message-area'; }
+
+      static get properties() {
+        return {
+          message: Object
+        }
+      }
+    }
+
+    window.customElements.define(InputMessageArea.is, InputMessageArea);
+  </script>
+</dom-module>

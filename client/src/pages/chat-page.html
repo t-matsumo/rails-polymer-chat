@@ -1,22 +1,29 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../components/chat-item.html">
-
+<link rel="import" href="../components/input-message-area.html">
 
 <dom-module id="chat-page">
   <template>
     <style>
       :host {
-        display: block;
+        height: calc(100vh - 64px);
+        display: flex;
+        flex-direction: column;
+      }
+
+      iron-list {
+        flex: auto;
       }
     </style>
 
-    <iron-list items="{{messages}}" scroll-target="document">
+    <iron-list items="{{messages}}">
       <template>
         <chat-item message="{{item}}"></chat-item>
       </template>
     </iron-list>
+
+    <input-message-area></input-message-area>
   </template>
 
   <script>
