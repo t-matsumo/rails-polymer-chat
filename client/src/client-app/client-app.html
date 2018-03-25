@@ -2,6 +2,8 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/app-layout/app-layout.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../pages/chat-page.html">
 
 <dom-module id="client-app">
@@ -10,25 +12,52 @@
       :host {
         display: block;
       }
+
+      app-toolbar {
+        background-color: #4285f4;
+        color: #fff;
+      }
+
+      .link-no-under-bar {
+        text-decoration: none;
+      }
     </style>
-    
+
     <app-location route="{{route}}"></app-location>
     <app-route
       route="{{route}}"
-      pattern="/components/client/:page"
+      pattern="{{root_path}}:page"
       data="{{routeData}}"
       tail="{{subroute}}"></app-route>
 
-    <a href="chat">got to chat</a>
-    
+    <app-header reveals>
+      <app-toolbar>
+        <a href="{{root_path}}" tabindex="-1" class="link-no-under-bar">
+          <div main-title>App name</div>
+        </a>
+
+        <a href="chat" tabindex="-1" class="link-no-under-bar">
+          <paper-button>chat room</paper-button>
+        </a>
+      </app-toolbar>
+    </app-header>
+
     <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
-      <chat-page name="chat" route="subroute"></chat-page>
+      <chat-page name="chat" route="{{subroute}}"></chat-page>
     </iron-pages>
   </template>
 
   <script>
     class ClientApp extends Polymer.Element {
       static get is() { return 'client-app'; }
+      static get properties() {
+        return {
+          root_path: {
+            type: String,
+            value: '/components/client/'
+          }
+        }
+      }
     }
 
     window.customElements.define(ClientApp.is, ClientApp);
