@@ -25,8 +25,8 @@
 
     <paper-card>
       <div class="card-content">
-        <paper-textarea label="メッセージ" required></paper-textarea>
-        <paper-button raised>送信</paper-button>
+        <paper-textarea label="メッセージ" required id="textarea"></paper-textarea>
+        <paper-button raised on-click="onSubmit">送信</paper-button>
       </div>
     </paper-card>
   </template>
@@ -39,6 +39,35 @@
         return {
           message: Object
         }
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+
+        const ws = new WebSocket('ws://localhost:3000/cable');
+        const id = JSON.stringify({ channel: 'ChatChannel' });
+        ws.addEventListener('open', function(event) {
+          const subscribeMessage = JSON.stringify({ command: 'subscribe', identifier: id});
+          ws.send(subscribeMessage);
+        });
+
+        this.ws = ws;
+        this.id = id;
+      }
+
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        this.ws.close();
+      }
+
+      onSubmit() {
+        this.wsSend(this.$.textarea.value);
+      }
+
+      wsSend(messageBody) {
+        const data = JSON.stringify({message: messageBody, action: 'speak'});
+        const message = JSON.stringify({ command: 'message', data: data, identifier: this.id});
+        this.ws.send(message);
       }
     }
 
