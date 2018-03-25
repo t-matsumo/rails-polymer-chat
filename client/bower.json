@@ -9,7 +9,8 @@
     "iron-pages": "PolymerElements/iron-pages#^2.1.0",
     "paper-button": "PolymerElements/paper-button#^2.1.0",
     "iron-list": "PolymerElements/iron-list#^2.0.13",
-    "paper-card": "PolymerElements/paper-card#^2.1.0"
+    "paper-card": "PolymerElements/paper-card#^2.1.0",
+    "paper-input": "PolymerElements/paper-input#^2.2.0"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
