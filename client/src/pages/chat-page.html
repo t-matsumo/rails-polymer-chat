@@ -1,4 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../components/chat-item.html">
+
 
 <dom-module id="chat-page">
   <template>
@@ -7,12 +11,77 @@
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+
+    <iron-list items="{{messages}}" scroll-target="document">
+      <template>
+        <chat-item message="{{item}}"></chat-item>
+      </template>
+    </iron-list>
   </template>
 
   <script>
     class ChatPage extends Polymer.Element {
       static get is() { return 'chat-page'; }
+
+      static get properties() {
+        return {
+          messages: {
+            type: Array,
+            value() {
+              return [
+                {
+                  user: 'user1',
+                  body: 'message1'
+                },
+                {
+                  user: 'user2',
+                  body: 'message1'
+                },
+                {
+                  user: 'user3',
+                  body: 'message1'
+                },
+                {
+                  user: 'user4',
+                  body: 'message1'
+                },
+                {
+                  user: 'user5',
+                  body: 'message1'
+                },
+                {
+                  user: 'user5',
+                  body: 'message1'
+                },
+                {
+                  user: 'user5',
+                  body: 'message1'
+                },
+                {
+                  user: 'user5',
+                  body: 'message1'
+                },
+                {
+                  user: 'user5',
+                  body: 'message1'
+                },
+                {
+                  user: 'user5',
+                  body: 'message1'
+                },
+                {
+                  user: 'user5',
+                  body: 'message1'
+                },
+                {
+                  user: 'user5',
+                  body: 'message1'
+                },
+              ]
+            }
+          }
+        }
+      }
     }
 
     window.customElements.define(ChatPage.is, ChatPage);
