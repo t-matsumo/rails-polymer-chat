@@ -10,7 +10,8 @@
   <template>
     <style>
       :host {
-        display: block;
+        display: grid;
+        grid-template-rows: 0 0 64px 1fr; /* 64px = app-headerの高さ */
       }
 
       app-toolbar {
@@ -44,6 +45,7 @@
 
     <iron-pages selected="{{routeData.page}}" attr-for-selected="name">
       <chat-page name="chat" route="{{subroute}}"></chat-page>
+      <div name="">トップページ(room一覧実装予定)</div>
     </iron-pages>
   </template>
 
