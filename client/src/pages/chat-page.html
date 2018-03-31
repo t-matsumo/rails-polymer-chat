@@ -23,7 +23,7 @@
       </template>
     </iron-list>
 
-    <input-message-area></input-message-area>
+    <input-message-area ws="[[ws]]" ws-id="[[id]]"></input-message-area>
   </template>
 
   <script>
@@ -40,54 +40,28 @@
                   user: 'user1',
                   body: 'message1'
                 },
-                {
-                  user: 'user2',
-                  body: 'message1'
-                },
-                {
-                  user: 'user3',
-                  body: 'message1'
-                },
-                {
-                  user: 'user4',
-                  body: 'message1'
-                },
-                {
-                  user: 'user5',
-                  body: 'message1'
-                },
-                {
-                  user: 'user5',
-                  body: 'message1'
-                },
-                {
-                  user: 'user5',
-                  body: 'message1'
-                },
-                {
-                  user: 'user5',
-                  body: 'message1'
-                },
-                {
-                  user: 'user5',
-                  body: 'message1'
-                },
-                {
-                  user: 'user5',
-                  body: 'message1'
-                },
-                {
-                  user: 'user5',
-                  body: 'message1'
-                },
-                {
-                  user: 'user5',
-                  body: 'message1'
-                },
               ]
             }
           }
         }
+      }
+
+      constructor() {
+        super();
+
+        this.id = JSON.stringify({ channel: 'ChatChannel', room:'room1' });
+        this.ws = new WebSocket('ws://localhost:3000/cable');
+        this.ws.onopen = (event) => {
+          const subscribeMessage = JSON.stringify({command: 'subscribe', identifier: this.id});
+          this.ws.send(subscribeMessage);
+
+          this.ws.onmessage = (messageEvent) => {
+            const message = JSON.parse(messageEvent.data).message;
+            if (message !== undefined && message.action !== undefined) {
+              this.push('messages', {user: message.user, body: message.body});
+            }
+          };
+        };
       }
     }
 
