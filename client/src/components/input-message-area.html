@@ -35,24 +35,25 @@
     class InputMessageArea extends Polymer.Element {
       static get is() { return 'input-message-area'; }
 
-      static get properties() {
-        return {
-          message: Object
-        }
-      }
-
       connectedCallback() {
         super.connectedCallback();
 
+        const id = JSON.stringify({ channel: 'ChatChannel', room:'room1' });
         const ws = new WebSocket('ws://localhost:3000/cable');
-        const id = JSON.stringify({ channel: 'ChatChannel' });
-        ws.addEventListener('open', function(event) {
-          const subscribeMessage = JSON.stringify({ command: 'subscribe', identifier: id});
+        ws.onopen = function(event) {
+          const subscribeMessage = JSON.stringify({command: 'subscribe', identifier: id});
           ws.send(subscribeMessage);
-        });
+        };
 
-        this.ws = ws;
+        ws.onmessage = function(message) {
+          let data = JSON.parse(message.data);
+          if (data.type != "ping") {
+            console.log(data);
+          }
+        };
+
         this.id = id;
+        this.ws = ws;
       }
 
       disconnectedCallback() {
