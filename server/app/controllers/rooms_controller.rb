@@ -11,19 +11,16 @@ class RoomsController < ApplicationController
     room = Room.new(room_params)
     room.save!
     render json: room
-    end
   end
 
   def update
     room = Room.find(params[:id])
     room.update!(article_params)
-    render :json room
   end
 
   def destroy
     room = Room.find(params[:id])
     room.destroy
-    render :json room
   end
 
   private
