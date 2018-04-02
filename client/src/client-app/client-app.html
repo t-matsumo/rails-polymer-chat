@@ -4,6 +4,8 @@
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/app-layout/app-layout.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../components/room-item.html">
 <link rel="import" href="../pages/chat-page.html">
 
 <dom-module id="client-app">
@@ -45,7 +47,14 @@
 
     <iron-pages selected="{{routeData.page}}" attr-for-selected="name">
       <chat-page name="chat" route="{{subroute}}"></chat-page>
-      <div name="">トップページ(room一覧実装予定)</div>
+      <div name="">
+        <h2>Room一覧</h2>
+        <iron-list items="[[rooms]]">
+          <template>
+            <room-item room="[[item]]"></room-item>
+          </template>
+        </iron-list>
+      </div>
     </iron-pages>
   </template>
 
@@ -57,8 +66,21 @@
           root_path: {
             type: String,
             value: '/components/client/'
-          }
+          },
+          rooms: Array
         }
+      }
+
+      constructor() {
+        super();
+
+        fetch('http://localhost:3000/rooms', {credentials: 'include'})
+          .then(response => {
+            return response.json();
+          }).then(rooms => {
+            this.rooms = rooms
+            this.notifyPath('rooms')
+          })
       }
     }
 
