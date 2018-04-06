@@ -1,0 +1,54 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../components/chat-item.html">
+<link rel="import" href="../../components/input-message-area.html">
+
+<dom-module id="room-list-page">
+  <template>
+    <style>
+      :host {
+        height: calc(100vh - 64px);
+        display: flex;
+        flex-direction: column;
+      }
+
+      iron-list {
+        flex: auto;
+      }
+    </style>
+
+    <iron-list items="[[rooms]]">
+      <template>
+        <a href="chat/[[item.id]]" tabindex="-1" class="link-no-under-bar">
+          <room-item room="[[item]]"></room-item>
+        </a>
+      </template>
+    </iron-list>
+  </template>
+
+  <script>
+    class RoomListPage extends Polymer.Element {
+      static get is() { return 'room-list-page'; }
+
+      static get properties() {
+        return {
+          rooms: Array
+        }
+      }
+
+      constructor() {
+        super();
+
+        fetch('http://localhost:3000/rooms', {credentials: 'include'})
+          .then(response => {
+            return response.json();
+          }).then(rooms => {
+            this.rooms = rooms;
+            this.notifyPath('rooms');
+          })
+      }
+    }
+
+    window.customElements.define(RoomListPage.is, RoomListPage);
+  </script>
+</dom-module>
