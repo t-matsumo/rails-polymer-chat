@@ -35,13 +35,6 @@
     class InputMessageArea extends Polymer.Element {
       static get is() { return 'input-message-area'; }
 
-      static get properties() {
-        return {
-          ws: Object,
-          wsId: String,
-        }
-      }
-
       onSubmit() {
         const data = JSON.stringify({body: this.$.textarea.value, user: 'user1', action: 'speak'});
         const message = JSON.stringify({ command: 'message', data: data, identifier: this.wsId});

@@ -17,6 +17,11 @@
       }
     </style>
 
+    <app-route id="route"
+      route="{{subroute}}"
+      pattern="/:roomId"
+      data="{{subRouteData}}"></app-route>
+
     <iron-list items="{{messages}}">
       <template>
         <chat-item message="{{item}}"></chat-item>
@@ -46,10 +51,25 @@
         }
       }
 
-      constructor() {
-        super();
+      ready() {
+        super.ready();
+        this.$.route.addEventListener('data-changed', e => this._onDataChanged(e));
+      }
 
-        this.id = JSON.stringify({ channel: 'ChatChannel', room:'room1' });
+      _onDataChanged(event) {
+        fetch('http://localhost:3000/rooms/' + this.subRouteData.roomId + '/messages', {credentials: 'include'})
+          .then(response => {
+            return response.json();
+          }).then(messages => {
+            this.messages = messages;
+            this.notifyPath('messages');
+          })
+
+        if (this.ws !== undefined) {
+          this.ws.close();
+        }
+
+        this.id = JSON.stringify({ channel: 'ChatChannel', id: this.subRouteData.roomId });
         this.ws = new WebSocket('ws://localhost:3000/cable');
         this.ws.onopen = (event) => {
           const subscribeMessage = JSON.stringify({command: 'subscribe', identifier: this.id});
