@@ -13,5 +13,20 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
       credentials: true,
       headers: :any,
       methods: [:get, :post, :put, :patch, :delete, :options, :head]
+
+    resource '/rooms/*',
+      credentials: true,
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+
+    resource '/messages',
+      credentials: true,
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+      
+    resource '/messages/*',
+      credentials: true,
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 end
