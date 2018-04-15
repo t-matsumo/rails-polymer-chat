@@ -1,5 +1,4 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../components/chat-item.html">
 <link rel="import" href="../components/input-message-area.html">
 
@@ -12,8 +11,10 @@
         flex-direction: column;
       }
 
-      iron-list {
+      .list {
         flex: auto;
+        height: 100px;
+        overflow: hidden;
       }
     </style>
 
@@ -22,11 +23,9 @@
       pattern="/:roomId"
       data="{{subRouteData}}"></app-route>
 
-    <iron-list items="{{messages}}">
-      <template>
+    <template is="dom-repeat"  items="{{messages}}" class="list">
         <chat-item message="{{item}}"></chat-item>
-      </template>
-    </iron-list>
+    </template>
 
     <input-message-area ws="[[ws]]" ws-id="[[id]]"></input-message-area>
   </template>
@@ -62,7 +61,6 @@
             return response.json();
           }).then(messages => {
             this.messages = messages;
-            this.notifyPath('messages');
           })
 
         if (this.ws !== undefined) {
