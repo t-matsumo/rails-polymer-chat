@@ -7,5 +7,11 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 10.times do |i|
-  Room.create(name: "room#{i}")
+  room = Room.create(name: "room#{i}")
+
+  if i < 8
+    10.times do |j|
+      room.messages.create(body: "room#{i}_message#{j}")
+    end
+  end
 end
