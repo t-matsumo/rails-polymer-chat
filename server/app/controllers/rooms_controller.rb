@@ -8,18 +8,16 @@ class RoomsController < ApplicationController
   end
 
   def create
-    room = Room.new(room_params)
-    room.save!
-    render json: room
+    render json: Room.create!(room_params)
   end
 
   def update
-    room = Room.find(params[:id])
-    room.update!(article_params)
+    room = Room.find params[:id]
+    room.update! room_params
   end
 
   def destroy
-    room = Room.find(params[:id])
+    room = Room.find params[:id]
     room.destroy
   end
 
